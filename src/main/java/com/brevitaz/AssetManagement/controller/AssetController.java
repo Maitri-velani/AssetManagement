@@ -46,4 +46,9 @@ public class AssetController {
         System.out.println("Deallocate asset from employee");
         return true;
     }
+    @RequestMapping(value="/{employeeId}/requests", method=RequestMethod.POST)
+    public boolean requestAsset(@RequestBody Asset asset, @PathVariable String employeeId)
+    {
+    	return true;
+    }
 }
