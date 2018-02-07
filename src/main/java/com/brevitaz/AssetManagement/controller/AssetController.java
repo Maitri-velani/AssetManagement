@@ -13,7 +13,7 @@ public class AssetController {
     private List<Asset> assets =new ArrayList<>();
 
     @RequestMapping(method = {RequestMethod.POST})
-    public boolean createAsset(@RequestBody Asset asset)
+    public boolean create(@RequestBody Asset asset)
     {
         System.out.println("Asset is created");
        // assets.add(asset);
@@ -21,23 +21,24 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/{assetId}",method = {RequestMethod.DELETE})
-    public boolean deleteAsset(@PathVariable String assetId)
+    public boolean delete(@PathVariable String assetId)
     {
         System.out.println("Asset is deleted");
         return true;
     }
 
     @RequestMapping(value = "/{assetId}/assign/{employeeId}", method = {RequestMethod.POST})
-    public Boolean assignAsset(@RequestBody Asset asset)
+    public Boolean assign(@RequestBody Asset asset)
     {
         System.out.println("Assign asset to employee Successfully");
         return true;
     }
 
     @RequestMapping(method = {RequestMethod.GET})
-    public void get()
+    public List<Asset> get()
     {
         System.out.println("Get assets");
+        return assets;
     }
 
     @RequestMapping(value = "/{assetId}/unassign/{employeeId}",method = {RequestMethod.DELETE})
@@ -47,8 +48,15 @@ public class AssetController {
         return true;
     }
     @RequestMapping(value="/{employeeId}/requests", method=RequestMethod.POST)
-    public boolean requestAsset(@RequestBody Asset asset, @PathVariable String employeeId)
+    public boolean request(@RequestBody Asset asset, @PathVariable String employeeId)
     {
     	return true;
+    }
+
+    @RequestMapping(value = "/{assetType}",method = {RequestMethod.GET})
+    public List<Asset> getByType()
+    {
+        System.out.println("Get assets");
+        return assets;
     }
 }
