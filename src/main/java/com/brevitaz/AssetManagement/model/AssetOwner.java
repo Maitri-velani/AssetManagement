@@ -1,6 +1,8 @@
 package com.brevitaz.AssetManagement.model;
 
 public class AssetOwner {
+	
+	private int abc;
 	private String ownerId;
 	private String firstName;
 	private String lastName;
