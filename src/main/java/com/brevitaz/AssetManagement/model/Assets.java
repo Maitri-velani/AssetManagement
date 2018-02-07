@@ -5,7 +5,7 @@ public class Assets {
     private String assetName;
     private String assetType;
     private String productId;
-    private String status;
+    private boolean status;
 
     public String getAssetId() {
         return assetId;
@@ -39,11 +39,11 @@ public class Assets {
         this.productId = productId;
     }
 
-    public String getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
@@ -54,7 +54,7 @@ public class Assets {
                 ", assetName='" + assetName + '\'' +
                 ", assetType='" + assetType + '\'' +
                 ", productId='" + productId + '\'' +
-                ", status='" + status + '\'' +
+                ", status=" + status +
                 '}';
     }
 }
