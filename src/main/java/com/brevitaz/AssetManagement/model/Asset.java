@@ -1,6 +1,6 @@
 package com.brevitaz.AssetManagement.model;
 
-public class Assets {
+public class Asset {
     private String assetId;
     private String assetName;
     private String assetType;
