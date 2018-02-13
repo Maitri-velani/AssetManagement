@@ -119,7 +119,7 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 
-        sourceBuilder.query(QueryBuilders.boolQuery().must(termQuery("assetOwnerName", firstName)));
+        sourceBuilder.query(QueryBuilders.boolQuery().must(termQuery("firstName", firstName)));
         request.source(sourceBuilder);
 
         List<AssetOwner> assetOwners=new ArrayList<>();
@@ -127,13 +127,12 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
         SearchResponse response = esConfig.getEsClient().search(request);
 
         SearchHit[] hits = response.getHits().getHits();
-        AssetOwner assetOwner;
+        AssetOwner assetOwner=null;
         for (SearchHit hit : hits)
         {
             assetOwner = objectMapper.readValue(hit.getSourceAsString(), AssetOwner.class);
             assetOwners.add(assetOwner);
         }
-
         return assetOwners;
     }
 
