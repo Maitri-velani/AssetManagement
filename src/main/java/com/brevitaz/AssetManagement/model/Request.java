@@ -1,11 +1,13 @@
 package com.brevitaz.AssetManagement.model;
 
+import java.util.List;
+
 public class Request {
 
     private String requestId;
     private String description;
     private boolean status;
-    private Asset asset;
+    private List<Asset> asset;
 
     public String getRequestId() {
         return requestId;
@@ -31,11 +33,21 @@ public class Request {
         this.status = status;
     }
 
-    public Asset getAsset() {
+    public List<Asset> getAsset() {
         return asset;
     }
 
-    public void setAsset(Asset asset) {
+    public void setAsset(List<Asset> asset) {
         this.asset = asset;
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "requestId='" + requestId + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", asset=" + asset +
+                '}';
     }
 }
