@@ -16,19 +16,17 @@ public class AssetController {
 
     private List<Asset> assets =new ArrayList<>();
 
-    @Autowired
-     private AssetDao dao;
    @Autowired
-    AssetDao dao;
+     private AssetDao assetDao;
 
     @RequestMapping(method = RequestMethod.POST)
     public boolean create(@RequestBody Asset asset) throws IOException {
-        return dao.create(asset);
+        return assetDao.create(asset);
     }
 
     @RequestMapping(value = "/{assetId}",method = RequestMethod.DELETE)
     public boolean delete(@PathVariable String assetId) throws IOException {
-        return dao.delete(assetId);
+        return assetDao.delete(assetId);
     }
 
     @RequestMapping(value = "/{assetId}/assign/{ownerId}", method = RequestMethod.POST)
@@ -41,17 +39,17 @@ public class AssetController {
 
     @RequestMapping(method = {RequestMethod.GET})
     public List<Asset> getAll() throws IOException {
-       return dao.getAll();
+       return assetDao.getAll();
     }
     
     @RequestMapping(value="/{assetId}", method = {RequestMethod.GET})
     public Asset getById(@PathVariable String assetId) throws IOException {
-        return dao.getById(assetId);
+        return assetDao.getById(assetId);
     }
     
     @RequestMapping(value="/type/{assetType}", method = {RequestMethod.GET})
     public List<Asset> getByType(@PathVariable String assetType) throws IOException {
-        return dao.getByType(assetType);
+        return assetDao.getByType(assetType);
     }
 
     @RequestMapping(value = "/{assetId}/unassign/{ownerId}",method = {RequestMethod.DELETE})
