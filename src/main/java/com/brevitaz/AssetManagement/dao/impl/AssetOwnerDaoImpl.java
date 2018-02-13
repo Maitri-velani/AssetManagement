@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 @Repository
 public class AssetOwnerDaoImpl implements AssetOwnerDao {
@@ -119,7 +119,7 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 
-        sourceBuilder.query(QueryBuilders.boolQuery().must(termQuery("firstName", firstName)));
+        sourceBuilder.query(QueryBuilders.boolQuery().must(matchQuery("firstName", firstName)));
         request.source(sourceBuilder);
 
         List<AssetOwner> assetOwners=new ArrayList<>();

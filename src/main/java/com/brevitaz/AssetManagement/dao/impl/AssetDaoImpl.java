@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 @Repository
 public class AssetDaoImpl implements AssetDao {
@@ -114,7 +114,7 @@ public class AssetDaoImpl implements AssetDao {
         SearchRequest request = new SearchRequest(INDEX_NAME);
         request.types(TYPE_NAME);
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-        sourceBuilder.query(QueryBuilders.boolQuery().must(termQuery("assetType", assetType)));
+        sourceBuilder.query(QueryBuilders.boolQuery().must(matchQuery("assetType", assetType)));
         request.source(sourceBuilder);
         List<Asset> assets=new ArrayList<>();
         SearchResponse response = esConfig.getEsClient().search(request);
