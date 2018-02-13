@@ -113,13 +113,13 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
     }
 
     @Override
-    public List<AssetOwner> getOwnerByName(String ownerName) throws IOException {
+    public List<AssetOwner> getOwnerByName(String firstName) throws IOException {
         SearchRequest request = new SearchRequest(INDEX_NAME);
         request.types(TYPE_NAME);
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 
-        sourceBuilder.query(QueryBuilders.boolQuery().must(termQuery("assetOwnerName", ownerName)));
+        sourceBuilder.query(QueryBuilders.boolQuery().must(termQuery("assetOwnerName", firstName)));
         request.source(sourceBuilder);
 
         List<AssetOwner> assetOwners=new ArrayList<>();

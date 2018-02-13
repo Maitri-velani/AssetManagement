@@ -39,8 +39,8 @@ public class AssetOwnerController {
 
 
     @RequestMapping(value="/{ownerName}", method = {RequestMethod.GET})
-    public List<AssetOwner> getOwnerByName(@PathVariable String ownerName) throws IOException {
-        return assetOwnerDao.getOwnerByName(ownerName);
+    public List<AssetOwner> getOwnerByName(@PathVariable String firstName) throws IOException {
+        return assetOwnerDao.getOwnerByName(firstName);
     }
 
     @RequestMapping(value="/id/{ownerId}", method = {RequestMethod.GET})

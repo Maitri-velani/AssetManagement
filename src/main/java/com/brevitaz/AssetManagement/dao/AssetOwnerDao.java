@@ -9,6 +9,6 @@ public interface AssetOwnerDao {
     public List<AssetOwner> getAll() throws IOException;
     public boolean update(AssetOwner assetOwner,String ownerId) throws IOException;
     public boolean delete(String ownerId) throws IOException;
-    public List<AssetOwner> getOwnerByName(String ownerName) throws IOException;
+    public List<AssetOwner> getOwnerByName(String firstName) throws IOException;
     public AssetOwner getOwnerById(String ownerName) throws IOException;
 }
