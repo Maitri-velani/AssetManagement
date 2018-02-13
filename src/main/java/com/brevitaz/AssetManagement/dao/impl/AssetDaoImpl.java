@@ -19,6 +19,7 @@ import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
+@Repository
 public class AssetDaoImpl implements AssetDao {
 
     private static final String TYPE_NAME="doc";
