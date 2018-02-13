@@ -18,6 +18,8 @@ public class AssetController {
 
     @Autowired
      private AssetDao dao;
+   @Autowired
+    AssetDao dao;
 
     @RequestMapping(method = RequestMethod.POST)
     public boolean create(@RequestBody Asset asset) throws IOException {
