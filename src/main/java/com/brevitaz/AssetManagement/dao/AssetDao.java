@@ -11,5 +11,5 @@ public interface AssetDao {
     public List<Asset> getAll() throws IOException;
     public Asset getById(String assetId) throws IOException;
     public List<Asset> getByType(String assetType) throws IOException;
-    public List<Asset> getByOwner(String ownerId) throws IOException;
+
 }

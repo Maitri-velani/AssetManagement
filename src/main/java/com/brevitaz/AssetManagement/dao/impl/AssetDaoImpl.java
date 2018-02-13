@@ -63,8 +63,7 @@ public class AssetDaoImpl implements AssetDao {
                 TYPE_NAME,
                 assetId
         );
-        DeleteResponse response =null;
-        response = esConfig.getEsClient().delete(request);
+        DeleteResponse response = esConfig.getEsClient().delete(request);
         if (response.status()==RestStatus.OK)
         {
             return true;
@@ -97,12 +96,8 @@ public class AssetDaoImpl implements AssetDao {
                 TYPE_NAME,
                 assetId);
 
-        GetResponse response = null;
-        Asset asset=null;
-        {
-            response = esConfig.getEsClient().get(request);
-            asset = objectMapper.readValue(response.getSourceAsString(), Asset.class);
-        }
+        GetResponse response = esConfig.getEsClient().get(request);
+        Asset asset = objectMapper.readValue(response.getSourceAsString(), Asset.class);
         if (response.isExists()) {
             return asset;
         }
@@ -116,47 +111,14 @@ public class AssetDaoImpl implements AssetDao {
     public List<Asset> getByType(String assetType) throws IOException {
         SearchRequest request = new SearchRequest(INDEX_NAME);
         request.types(TYPE_NAME);
-
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-
         sourceBuilder.query(QueryBuilders.boolQuery().must(termQuery("assetType", assetType)));
         request.source(sourceBuilder);
-
-        SearchResponse response = null;
         List<Asset> assets=new ArrayList<>();
-
-        response = esConfig.getEsClient().search(request);
-
+        SearchResponse response = esConfig.getEsClient().search(request);
         SearchHit[] hits = response.getHits().getHits();
 
-        Asset asset=null;
-        for (SearchHit hit : hits)
-        {
-            asset = objectMapper.readValue(hit.getSourceAsString(), Asset.class);
-            assets.add(asset);
-        }
-
-        return assets;
-    }
-
-    @Override
-    public List<Asset> getByOwner(String ownerId) throws IOException {
-        SearchRequest request = new SearchRequest(INDEX_NAME);
-        request.types(TYPE_NAME);
-
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-
-        sourceBuilder.query(QueryBuilders.boolQuery().must(termQuery("ownerId", ownerId)));
-        request.source(sourceBuilder);
-
-        SearchResponse response = null;
-        List<Asset> assets=new ArrayList<>();
-
-        response = esConfig.getEsClient().search(request);
-
-        SearchHit[] hits = response.getHits().getHits();
-
-        Asset asset=null;
+        Asset asset;
         for (SearchHit hit : hits)
         {
             asset = objectMapper.readValue(hit.getSourceAsString(), Asset.class);

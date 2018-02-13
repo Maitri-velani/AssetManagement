@@ -14,9 +14,7 @@ import java.util.List;
 @RequestMapping("/assets")
 public class AssetController {
 
-    private List<Asset> assets =new ArrayList<>();
-
-    @Autowired
+   @Autowired
     AssetDao dao;
 
     @RequestMapping(method = RequestMethod.POST)
