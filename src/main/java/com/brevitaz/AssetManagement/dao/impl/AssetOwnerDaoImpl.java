@@ -29,7 +29,7 @@ import java.util.List;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 @Repository
-public class AssetAssetOwnerDaoImpl implements AssetOwnerDao {
+public class AssetOwnerDaoImpl implements AssetOwnerDao {
 
     private static final String TYPE_NAME="doc";
     private static final String INDEX_NAME="owner";
