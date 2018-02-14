@@ -49,7 +49,7 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
         String json=objectMapper.writeValueAsString(assetOwner);
         request.source(json, XContentType.JSON);
         IndexResponse response = esConfig.getEsClient().index(request);
-        if (response.status()== RestStatus.CREATED)
+        if (response.status()== RestStatus.OK)
         {
             return true;
         }
@@ -102,7 +102,7 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
                 ownerId
         );
         DeleteResponse response = esConfig.getEsClient().delete(request);
-        if (response.status()==RestStatus.OK)
+        if (response.status()==RestStatus.NOT_FOUND)
         {
             return true;
         }

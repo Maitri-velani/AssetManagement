@@ -20,7 +20,7 @@ public class ESConfig {
     public RestHighLevelClient getEsClient() {
         if (esClient == null) {
             this.esClient = new RestHighLevelClient(
-                    RestClient.builder(new HttpHost("localhost", 9200, "http")));
+                    RestClient.builder(new HttpHost("localhost", 9200, "http")).build());
         }
         return esClient;
     }

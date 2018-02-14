@@ -46,7 +46,7 @@ public class RequestDaoImpl implements RequestDao {
         String json = objectMapper.writeValueAsString(request);
         indexRequest.source(json, XContentType.JSON);
         IndexResponse response = esConfig.getEsClient().index(indexRequest);
-        if (response.status() == RestStatus.CREATED)
+        if (response.status() == RestStatus.OK)
             return true;
         else
             return false;
@@ -76,7 +76,7 @@ public class RequestDaoImpl implements RequestDao {
                 requestId
         );
         DeleteResponse response = esConfig.getEsClient().delete(request);
-        if (response.status()==RestStatus.OK)
+        if (response.status()==RestStatus.NOT_FOUND)
             return true;
         else
             return false;

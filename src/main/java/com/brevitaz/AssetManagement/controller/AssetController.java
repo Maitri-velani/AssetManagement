@@ -14,8 +14,6 @@ import java.util.List;
 @RequestMapping("/assets")
 public class AssetController {
 
-    private List<Asset> assets =new ArrayList<>();
-
    @Autowired
      private AssetDao assetDao;
 
@@ -58,5 +56,4 @@ public class AssetController {
         System.out.println("Deallocate asset from employee");
         return true;
     }
-
 }

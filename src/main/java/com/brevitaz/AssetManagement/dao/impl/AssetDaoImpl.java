@@ -48,7 +48,7 @@ public class AssetDaoImpl implements AssetDao {
         String json=objectMapper.writeValueAsString(asset);
         request.source(json, XContentType.JSON);
         IndexResponse response = esConfig.getEsClient().index(request);
-        if (response.status()== RestStatus.CREATED)
+        if (response.status()== RestStatus.OK)
         {
             return true;
         }
@@ -66,7 +66,7 @@ public class AssetDaoImpl implements AssetDao {
                 assetId
         );
         DeleteResponse response = esConfig.getEsClient().delete(request);
-        if (response.status()==RestStatus.OK)
+        if (response.status()==RestStatus.NOT_FOUND)
         {
             return true;
         }
@@ -114,6 +114,7 @@ public class AssetDaoImpl implements AssetDao {
         SearchRequest request = new SearchRequest(INDEX_NAME);
         request.types(TYPE_NAME);
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        System.out.println("HEllloooo");
         sourceBuilder.query(QueryBuilders.boolQuery().must(matchQuery("assetType", assetType)));
         request.source(sourceBuilder);
         List<Asset> assets=new ArrayList<>();
@@ -126,7 +127,6 @@ public class AssetDaoImpl implements AssetDao {
             asset = objectMapper.readValue(hit.getSourceAsString(), Asset.class);
             assets.add(asset);
         }
-
         return assets;
     }
 }
