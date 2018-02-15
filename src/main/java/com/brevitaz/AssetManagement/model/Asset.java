@@ -1,34 +1,34 @@
 package com.brevitaz.AssetManagement.model;
 
 public class Asset {
-    private String assetId;
-    private String assetName;
-    private String assetType;
+    private String id;
+    private String name;
+    private String type;
     private String productId;
     private boolean status;
 
-    public String getAssetId() {
-        return assetId;
+    public String getId() {
+        return id;
     }
 
-    public void setAssetId(String assetId) {
-        this.assetId = assetId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getAssetName() {
-        return assetName;
+    public String getName() {
+        return name;
     }
 
-    public void setAssetName(String assetName) {
-        this.assetName = assetName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAssetType() {
-        return assetType;
+    public String getType() {
+        return type;
     }
 
-    public void setAssetType(String assetType) {
-        this.assetType = assetType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getProductId() {
@@ -50,9 +50,9 @@ public class Asset {
     @Override
     public String toString() {
         return "Asset{" +
-                "assetId='" + assetId + '\'' +
-                ", assetName='" + assetName + '\'' +
-                ", assetType='" + assetType + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 ", productId='" + productId + '\'' +
                 ", status=" + status +
                 '}';

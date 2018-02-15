@@ -41,7 +41,7 @@ public class RequestDaoImpl implements RequestDao {
         IndexRequest indexRequest = new IndexRequest(
                 INDEX_NAME,
                 TYPE_NAME,
-                request.getRequestId());
+                request.getId());
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String json = objectMapper.writeValueAsString(request);
         indexRequest.source(json, XContentType.JSON);
@@ -69,11 +69,11 @@ public class RequestDaoImpl implements RequestDao {
     }
 
     @Override
-    public boolean delete(String requestId) throws IOException {
+    public boolean delete(String id) throws IOException {
         DeleteRequest request = new DeleteRequest(
                 INDEX_NAME,
                 TYPE_NAME,
-                requestId
+                id
         );
         DeleteResponse response = esConfig.getEsClient().delete(request);
         if (response.status()==RestStatus.NOT_FOUND)
@@ -83,11 +83,11 @@ public class RequestDaoImpl implements RequestDao {
     }
 
     @Override
-    public Request getById(String requestId) throws IOException {
+    public Request getById(String id) throws IOException {
         GetRequest getRequest = new GetRequest(
                 INDEX_NAME,
                 TYPE_NAME,
-                requestId
+                id
         );
         GetResponse response = esConfig.getEsClient().get(getRequest);
         Request request = objectMapper.readValue(response.getSourceAsString(),Request.class);

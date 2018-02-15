@@ -27,24 +27,24 @@ public class AssetOwnerController {
         return assetOwnerDao.getAll();
     }
 
-    @RequestMapping(value = "/{ownerId}", method = RequestMethod.PUT)
-    public boolean update(@RequestBody AssetOwner assetOwner, @PathVariable String ownerId) throws IOException {
-        return assetOwnerDao.update(assetOwner, ownerId);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public boolean update(@RequestBody AssetOwner assetOwner, @PathVariable String id) throws IOException {
+        return assetOwnerDao.update(assetOwner, id);
     }
 
-    @RequestMapping(value = "/{ownerId}", method = {RequestMethod.DELETE})
-    public boolean delete(@PathVariable String ownerId) throws IOException {
-        return assetOwnerDao.delete(ownerId);
+    @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE})
+    public boolean delete(@PathVariable String id) throws IOException {
+        return assetOwnerDao.delete(id);
     }
 
 
-    @RequestMapping(value="/{firstName}", method = {RequestMethod.GET})
+    @RequestMapping(value="/name/{firstName}", method = {RequestMethod.GET})
     public List<AssetOwner> getOwnerByName(@PathVariable String firstName) throws IOException {
         return assetOwnerDao.getOwnerByName(firstName);
     }
 
-    @RequestMapping(value="/id/{ownerId}", method = {RequestMethod.GET})
-    public AssetOwner getByOwnerId(@PathVariable String ownerId) throws IOException {
-        return assetOwnerDao.getOwnerById(ownerId);
+    @RequestMapping(value="/{id}", method = {RequestMethod.GET})
+    public AssetOwner getByOwnerId(@PathVariable String id) throws IOException {
+        return assetOwnerDao.getOwnerById(id);
     }
 }

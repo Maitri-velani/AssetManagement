@@ -43,7 +43,7 @@ public class AssetDaoImpl implements AssetDao {
         IndexRequest request = new IndexRequest(
                 INDEX_NAME,
                 TYPE_NAME,
-                asset.getAssetId());
+                asset.getId());
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String json=objectMapper.writeValueAsString(asset);
         request.source(json, XContentType.JSON);
@@ -59,11 +59,11 @@ public class AssetDaoImpl implements AssetDao {
     }
 
     @Override
-    public boolean delete(String assetId) throws IOException {
+    public boolean delete(String id) throws IOException {
         DeleteRequest request = new DeleteRequest(
                 INDEX_NAME,
                 TYPE_NAME,
-                assetId
+                id
         );
         DeleteResponse response = esConfig.getEsClient().delete(request);
         if (response.status()==RestStatus.NOT_FOUND)
@@ -92,11 +92,11 @@ public class AssetDaoImpl implements AssetDao {
     }
 
     @Override
-    public Asset getById(String assetId) throws IOException {
+    public Asset getById(String id) throws IOException {
         GetRequest request = new GetRequest(
                 INDEX_NAME,
                 TYPE_NAME,
-                assetId);
+                id);
 
         GetResponse response = esConfig.getEsClient().get(request);
         Asset asset = objectMapper.readValue(response.getSourceAsString(), Asset.class);
@@ -110,12 +110,11 @@ public class AssetDaoImpl implements AssetDao {
     }
 
     @Override
-    public List<Asset> getByType(String assetType) throws IOException {
+    public List<Asset> getByType(String type) throws IOException {
         SearchRequest request = new SearchRequest(INDEX_NAME);
         request.types(TYPE_NAME);
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-        System.out.println("HEllloooo");
-        sourceBuilder.query(QueryBuilders.boolQuery().must(matchQuery("assetType", assetType)));
+        sourceBuilder.query(QueryBuilders.boolQuery().must(matchQuery("type", type)));
         request.source(sourceBuilder);
         List<Asset> assets=new ArrayList<>();
         SearchResponse response = esConfig.getEsClient().search(request);

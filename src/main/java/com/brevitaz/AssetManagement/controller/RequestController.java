@@ -26,20 +26,20 @@ public class RequestController {
 
     }
 
-    @RequestMapping(value = "/{requestId}/approve",method = RequestMethod.POST)
-    public boolean approve(@PathVariable String requestId)
+    @RequestMapping(value = "/{id}/approve",method = RequestMethod.POST)
+    public boolean approve(@PathVariable String id)
     {
         return false;
     }
 
-    @RequestMapping(value = "/{requestId}",method = RequestMethod.DELETE) //only to test
-    public boolean delete(@PathVariable String requestId) throws IOException {
-        return requestDao.delete(requestId);
+    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE) //only to test
+    public boolean delete(@PathVariable String id) throws IOException {
+        return requestDao.delete(id);
     }
 
-    @RequestMapping(value = "/{requestId}",method = RequestMethod.GET) //only to test
-    public Request getById(@PathVariable String requestId) throws IOException {
-        return requestDao.getById(requestId);
+    @RequestMapping(value = "/{id}",method = RequestMethod.GET) //only to test
+    public Request getById(@PathVariable String id) throws IOException {
+        return requestDao.getById(id);
     }
 
 }

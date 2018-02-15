@@ -44,7 +44,7 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
         IndexRequest request = new IndexRequest(
                 INDEX_NAME,
                 TYPE_NAME,
-                assetOwner.getOwnerId());
+                assetOwner.getId());
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String json=objectMapper.writeValueAsString(assetOwner);
         request.source(json, XContentType.JSON);
@@ -75,11 +75,11 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
     }
 
     @Override
-    public boolean update(AssetOwner assetOwner, String ownerId) throws IOException {
+    public boolean update(AssetOwner assetOwner, String id) throws IOException {
         UpdateRequest request = new UpdateRequest(
                 INDEX_NAME,
                 TYPE_NAME,
-                ownerId);
+                id);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String json = objectMapper.writeValueAsString(assetOwner);
         request.doc(json, XContentType.JSON);
@@ -95,11 +95,11 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
     }
 
     @Override
-    public boolean delete(String ownerId) throws IOException {
+    public boolean delete(String id) throws IOException {
         DeleteRequest request = new DeleteRequest(
                 INDEX_NAME,
                 TYPE_NAME,
-                ownerId
+                id
         );
         DeleteResponse response = esConfig.getEsClient().delete(request);
         if (response.status()==RestStatus.NOT_FOUND)
@@ -127,7 +127,7 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
         SearchResponse response = esConfig.getEsClient().search(request);
 
         SearchHit[] hits = response.getHits().getHits();
-        AssetOwner assetOwner=null;
+        AssetOwner assetOwner;
         for (SearchHit hit : hits)
         {
             assetOwner = objectMapper.readValue(hit.getSourceAsString(), AssetOwner.class);
@@ -137,11 +137,11 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
     }
 
     @Override
-    public AssetOwner getOwnerById(String ownerId) throws IOException {
+    public AssetOwner getOwnerById(String id) throws IOException {
         GetRequest request = new GetRequest(
                 INDEX_NAME,
                 TYPE_NAME,
-                ownerId);
+                id);
 
         GetResponse response = esConfig.getEsClient().get(request);
         AssetOwner assetOwner = objectMapper.readValue(response.getSourceAsString(), AssetOwner.class);

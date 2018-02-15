@@ -4,17 +4,17 @@ import java.util.List;
 
 public class Request {
 
-    private String requestId;
+    private String id;
     private String description;
     private boolean status;
-    private List<Asset> asset;
+    private List<Asset> assets;
 
-    public String getRequestId() {
-        return requestId;
+    public String getId() {
+        return id;
     }
 
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescription() {
@@ -33,21 +33,21 @@ public class Request {
         this.status = status;
     }
 
-    public List<Asset> getAsset() {
-        return asset;
+    public List<Asset> getAssets() {
+        return assets;
     }
 
-    public void setAsset(List<Asset> asset) {
-        this.asset = asset;
+    public void setAssets(List<Asset> assets) {
+        this.assets = assets;
     }
 
     @Override
     public String toString() {
         return "Request{" +
-                "requestId='" + requestId + '\'' +
+                "id='" + id + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                ", asset=" + asset +
+                ", assets=" + assets +
                 '}';
     }
 }

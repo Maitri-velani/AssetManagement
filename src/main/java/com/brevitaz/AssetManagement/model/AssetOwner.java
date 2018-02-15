@@ -4,17 +4,17 @@ import java.util.List;
 
 public class AssetOwner {
 	
-	private String ownerId;
+	private String id;
 	private String firstName;
 	private String lastName;
-	private List<Asset> assetList;
+	private List<Asset> assets;
 
-	public String getOwnerId() {
-		return ownerId;
+	public String getId() {
+		return id;
 	}
 
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -33,21 +33,21 @@ public class AssetOwner {
 		this.lastName = lastName;
 	}
 
-	public List<Asset> getAssetList() {
-		return assetList;
+	public List<Asset> getAssets() {
+		return assets;
 	}
 
-	public void setAssetList(List<Asset> assetList) {
-		this.assetList = assetList;
+	public void setAssets(List<Asset> assets) {
+		this.assets = assets;
 	}
 
 	@Override
 	public String toString() {
 		return "AssetOwner{" +
-				"ownerId='" + ownerId + '\'' +
+				"id='" + id + '\'' +
 				", firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
-				", assetList=" + assetList +
+				", assets=" + assets +
 				'}';
 	}
 }

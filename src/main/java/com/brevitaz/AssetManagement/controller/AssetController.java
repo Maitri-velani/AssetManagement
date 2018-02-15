@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/assets")
+@RequestMapping("/asset")
 public class AssetController {
 
    @Autowired
@@ -22,12 +22,12 @@ public class AssetController {
         return assetDao.create(asset);
     }
 
-    @RequestMapping(value = "/{assetId}",method = RequestMethod.DELETE)
-    public boolean delete(@PathVariable String assetId) throws IOException {
-        return assetDao.delete(assetId);
+    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
+    public boolean delete(@PathVariable String id) throws IOException {
+        return assetDao.delete(id);
     }
 
-    @RequestMapping(value = "/{assetId}/assign/{ownerId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/assign/{ownerId}", method = RequestMethod.POST)
     public boolean assign(@RequestBody Asset asset)
     {
         System.out.println("Assign asset to employee Successfully");
@@ -40,18 +40,18 @@ public class AssetController {
        return assetDao.getAll();
     }
     
-    @RequestMapping(value="/{assetId}", method = {RequestMethod.GET})
-    public Asset getById(@PathVariable String assetId) throws IOException {
-        return assetDao.getById(assetId);
+    @RequestMapping(value="/{id}", method = {RequestMethod.GET})
+    public Asset getById(@PathVariable String id) throws IOException {
+        return assetDao.getById(id);
     }
     
-    @RequestMapping(value="/type/{assetType}", method = {RequestMethod.GET})
-    public List<Asset> getByType(@PathVariable String assetType) throws IOException {
-        return assetDao.getByType(assetType);
+    @RequestMapping(value="/type/{type}", method = {RequestMethod.GET})
+    public List<Asset> getByType(@PathVariable String type) throws IOException {
+        return assetDao.getByType(type);
     }
 
-    @RequestMapping(value = "/{assetId}/unassign/{ownerId}",method = {RequestMethod.DELETE})
-    public boolean unassign(@PathVariable String assetId, String employeeId)
+    @RequestMapping(value = "/{id}/unassign/{ownerId}",method = {RequestMethod.DELETE})
+    public boolean unassign(@PathVariable String id, String ownerId)
     {
         System.out.println("Deallocate asset from employee");
         return true;
