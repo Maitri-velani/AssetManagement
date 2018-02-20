@@ -17,7 +17,7 @@ public class RequestController {
 
     @RequestMapping(value = "/{ownerId}",method = RequestMethod.POST)
     public boolean create(@RequestBody Request request, @PathVariable String ownerId) throws IOException {
-        return requestDao.insert(request,ownerId);
+        return requestDao.create(request,ownerId);
     }
 
     @RequestMapping(method = RequestMethod.GET)

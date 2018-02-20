@@ -37,7 +37,7 @@ public class RequestDaoImpl implements RequestDao {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public boolean insert(Request request, String ownerId) throws IOException {
+    public boolean create(Request request, String ownerId) throws IOException {
         IndexRequest indexRequest = new IndexRequest(
                 INDEX_NAME,
                 TYPE_NAME,

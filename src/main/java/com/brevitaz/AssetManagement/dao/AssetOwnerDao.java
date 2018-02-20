@@ -11,4 +11,5 @@ public interface AssetOwnerDao {
     public boolean delete(String id) throws IOException;
     public List<AssetOwner> getOwnerByName(String firstName) throws IOException;
     public AssetOwner getOwnerById(String id) throws IOException;
+
 }
