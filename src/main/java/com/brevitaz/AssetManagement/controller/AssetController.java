@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/asset")
+@RequestMapping("api/asset")
 public class AssetController {
 
    @Autowired

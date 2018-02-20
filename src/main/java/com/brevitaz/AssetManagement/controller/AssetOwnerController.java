@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @RestController()
-@RequestMapping("/owner")
+@RequestMapping("api/owner")
 public class AssetOwnerController {
 
     @Autowired
