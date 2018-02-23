@@ -21,7 +21,7 @@ public class RequestDaoTest {
     RequestDao requestDao;
 
     @Test
-    public void create() throws IOException {
+    public void create(){
         List<Asset> assets = new ArrayList<>();
         Asset asset=new Asset();
         asset.setName("mouse");
@@ -41,20 +41,20 @@ public class RequestDaoTest {
     }
 
     @Test
-    public void getAll() throws IOException {
+    public void getAll(){
         List<Request> requests = requestDao.getAll();
         int size = requests.size();
         Assert.assertEquals(1,size);
     }
 
     @Test
-    public void delete() throws IOException {
+    public void delete(){
         boolean status = requestDao.delete("1");
         Assert.assertEquals(true,status);
     }
 
     @Test
-    public void getById() throws IOException {
+    public void getById(){
         Request request = requestDao.getById("1");
         Assert.assertNotNull(request);
     }

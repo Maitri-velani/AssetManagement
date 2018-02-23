@@ -19,7 +19,7 @@ public class AssetDaoTest {
     AssetDao assetDao;
 
     @Test
-    public void create() throws IOException {
+    public void create(){
         Asset asset = new Asset();
         asset.setId("3");
         asset.setName("uwqe");
@@ -29,27 +29,27 @@ public class AssetDaoTest {
     }
 
     @Test
-    public void getAll() throws IOException {
+    public void getAll(){
         List<Asset> assets = assetDao.getAll();
         int size = assets.size();
         Assert.assertEquals(2,size);
     }
 
     @Test
-    public void getById() throws IOException {
+    public void getById(){
         Asset asset = assetDao.getById("2");
         Assert.assertNotNull(asset);
     }
 
     @Test
-    public void getByType() throws IOException {
+    public void getByType(){
         List<Asset> assets = assetDao.getByType("lenovo");
         int size = assets.size();
         Assert.assertEquals(2,size);
     }
 
     @Test
-    public void delete() throws IOException {
+    public void delete(){
         boolean status=assetDao.delete("1");
         Assert.assertEquals(true,status);
     }

@@ -19,7 +19,7 @@ public class AssetOwnerDaoTest {
     AssetOwnerDao assetOwnerDao;
 
     @Test
-    public void create() throws IOException {
+    public void create(){
         AssetOwner assetOwner = new AssetOwner();
         assetOwner.setId("3");
         assetOwner.setFirstName("abc");
@@ -28,14 +28,14 @@ public class AssetOwnerDaoTest {
     }
 
     @Test
-    public void getAll() throws IOException {
+    public void getAll(){
         List<AssetOwner> assetOwners = assetOwnerDao.getAll();
         int size=assetOwners.size();
         Assert.assertEquals(2,size);
     }
 
     @Test
-    public void update() throws IOException {
+    public void update(){
         AssetOwner assetOwner = new AssetOwner();
         assetOwner.setFirstName("pqrs");
         assetOwner.setLastName("mno");
@@ -44,20 +44,20 @@ public class AssetOwnerDaoTest {
     }
 
     @Test
-    public void delete() throws IOException {
+    public void delete(){
         boolean status=assetOwnerDao.delete("1");
         Assert.assertEquals(true,status);
     }
 
     @Test
-    public void getOwnerByName() throws IOException {
+    public void getOwnerByName(){
         List<AssetOwner> assetOwners = assetOwnerDao.getOwnerByName("abc");
         int size = assetOwners.size();
         Assert.assertEquals(2,size);
     }
 
     @Test
-    public void getById() throws IOException {
+    public void getById(){
         AssetOwner assetOwner = assetOwnerDao.getOwnerById("2");
         Assert.assertNotNull(assetOwner);
     }
