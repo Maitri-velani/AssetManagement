@@ -6,6 +6,7 @@ import com.brevitaz.AssetManagement.config.ESConfig;
 import com.brevitaz.AssetManagement.dao.RequestDao;
 import com.brevitaz.AssetManagement.model.Request;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -37,15 +38,25 @@ public class RequestDaoImpl implements RequestDao {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public boolean create(Request request, String ownerId) throws IOException {
+    public boolean create(Request request, String ownerId){
         IndexRequest indexRequest = new IndexRequest(
                 INDEX_NAME,
                 TYPE_NAME,
                 request.getId());
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String json = objectMapper.writeValueAsString(request);
+        String json = null;
+        try {
+            json = objectMapper.writeValueAsString(request);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         indexRequest.source(json, XContentType.JSON);
-        IndexResponse response = esConfig.getEsClient().index(indexRequest);
+        IndexResponse response = null;
+        try {
+            response = esConfig.getEsClient().index(indexRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (response.status() == RestStatus.OK)
             return true;
         else
@@ -53,29 +64,43 @@ public class RequestDaoImpl implements RequestDao {
     }
 
     @Override
-    public List<Request> getAll() throws IOException {
+    public List<Request> getAll(){
         List<Request> requests = new ArrayList<>();
         SearchRequest searchRequest = new SearchRequest(INDEX_NAME);
         searchRequest.types(TYPE_NAME);
-        SearchResponse response = esConfig.getEsClient().search(searchRequest);
+        SearchResponse response = null;
+        try {
+            response = esConfig.getEsClient().search(searchRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         SearchHit[] hits = response.getHits().getHits();
-        Request request;
+        Request request = null;
         for (SearchHit hit : hits)
         {
-            request=objectMapper.readValue(hit.getSourceAsString(),Request.class);
+            try {
+                request=objectMapper.readValue(hit.getSourceAsString(),Request.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             requests.add(request);
         }
         return requests;
     }
 
     @Override
-    public boolean delete(String id) throws IOException {
+    public boolean delete(String id){
         DeleteRequest request = new DeleteRequest(
                 INDEX_NAME,
                 TYPE_NAME,
                 id
         );
-        DeleteResponse response = esConfig.getEsClient().delete(request);
+        DeleteResponse response = null;
+        try {
+            response = esConfig.getEsClient().delete(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (response.status()==RestStatus.NOT_FOUND)
             return true;
         else
@@ -83,14 +108,24 @@ public class RequestDaoImpl implements RequestDao {
     }
 
     @Override
-    public Request getById(String id) throws IOException {
+    public Request getById(String id){
         GetRequest getRequest = new GetRequest(
                 INDEX_NAME,
                 TYPE_NAME,
                 id
         );
-        GetResponse response = esConfig.getEsClient().get(getRequest);
-        Request request = objectMapper.readValue(response.getSourceAsString(),Request.class);
+        GetResponse response = null;
+        try {
+            response = esConfig.getEsClient().get(getRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Request request = null;
+        try {
+            request = objectMapper.readValue(response.getSourceAsString(),Request.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if(response.isExists())
             return request;
         else

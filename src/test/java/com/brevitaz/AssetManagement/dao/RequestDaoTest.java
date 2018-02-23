@@ -24,15 +24,19 @@ public class RequestDaoTest {
     public void create() throws IOException {
         List<Asset> assets = new ArrayList<>();
         Asset asset=new Asset();
-        asset.setName("lenovo");
         asset.setName("mouse");
         assets.add(asset);
+
+        Asset asset1 = new Asset();
+        asset1.setName("lenovo");
+        assets.add(asset1);
 
         Request request = new Request();
         request.setId("1");
         request.setAssets(assets);
 
         boolean status = requestDao.create(request,"1");
+        System.out.println(request);
         Assert.assertEquals(true,status);
     }
 

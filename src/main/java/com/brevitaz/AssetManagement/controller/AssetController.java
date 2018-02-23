@@ -18,12 +18,12 @@ public class AssetController {
      private AssetDao assetDao;
 
     @RequestMapping(method = RequestMethod.POST)
-    public boolean create(@RequestBody Asset asset) throws IOException {
+    public boolean create(@RequestBody Asset asset){
         return assetDao.create(asset);
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
-    public boolean delete(@PathVariable String id) throws IOException {
+    public boolean delete(@PathVariable String id){
         return assetDao.delete(id);
     }
 
@@ -36,17 +36,17 @@ public class AssetController {
     }
 
     @RequestMapping(method = {RequestMethod.GET})
-    public List<Asset> getAll() throws IOException {
+    public List<Asset> getAll(){
        return assetDao.getAll();
     }
     
     @RequestMapping(value="/{id}", method = {RequestMethod.GET})
-    public Asset getById(@PathVariable String id) throws IOException {
+    public Asset getById(@PathVariable String id){
         return assetDao.getById(id);
     }
     
     @RequestMapping(value="/type/{type}", method = {RequestMethod.GET})
-    public List<Asset> getByType(@PathVariable String type) throws IOException {
+    public List<Asset> getByType(@PathVariable String type) {
         return assetDao.getByType(type);
     }
 

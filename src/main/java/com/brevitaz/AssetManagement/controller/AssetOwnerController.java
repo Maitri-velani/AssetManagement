@@ -17,34 +17,34 @@ public class AssetOwnerController {
     AssetOwnerDao assetOwnerDao;
 
     @RequestMapping(method = RequestMethod.POST)
-    public boolean create(@RequestBody AssetOwner assetOwner) throws IOException {
+    public boolean create(@RequestBody AssetOwner assetOwner){
         return assetOwnerDao.create(assetOwner);
     }
 
 
     @RequestMapping(method = {RequestMethod.GET})
-    public List<AssetOwner> getAll() throws IOException {
+    public List<AssetOwner> getAll(){
         return assetOwnerDao.getAll();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public boolean update(@RequestBody AssetOwner assetOwner, @PathVariable String id) throws IOException {
+    public boolean update(@RequestBody AssetOwner assetOwner, @PathVariable String id){
         return assetOwnerDao.update(assetOwner, id);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE})
-    public boolean delete(@PathVariable String id) throws IOException {
+    public boolean delete(@PathVariable String id){
         return assetOwnerDao.delete(id);
     }
 
 
     @RequestMapping(value="/name/{firstName}", method = {RequestMethod.GET})
-    public List<AssetOwner> getOwnerByName(@PathVariable String firstName) throws IOException {
+    public List<AssetOwner> getOwnerByName(@PathVariable String firstName){
         return assetOwnerDao.getOwnerByName(firstName);
     }
 
     @RequestMapping(value="/{id}", method = {RequestMethod.GET})
-    public AssetOwner getByOwnerId(@PathVariable String id) throws IOException {
+    public AssetOwner getByOwnerId(@PathVariable String id){
         return assetOwnerDao.getOwnerById(id);
     }
 }

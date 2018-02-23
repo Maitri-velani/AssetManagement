@@ -37,7 +37,7 @@ public class AssetDaoTest {
 
     @Test
     public void getById() throws IOException {
-        Asset asset = assetDao.getById("1");
+        Asset asset = assetDao.getById("2");
         Assert.assertNotNull(asset);
     }
 

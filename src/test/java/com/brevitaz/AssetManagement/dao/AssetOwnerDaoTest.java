@@ -31,15 +31,15 @@ public class AssetOwnerDaoTest {
     public void getAll() throws IOException {
         List<AssetOwner> assetOwners = assetOwnerDao.getAll();
         int size=assetOwners.size();
-        Assert.assertEquals(1,size);
+        Assert.assertEquals(2,size);
     }
 
     @Test
     public void update() throws IOException {
         AssetOwner assetOwner = new AssetOwner();
         assetOwner.setFirstName("pqrs");
-        assetOwner.setLastName("rygfhf");
-        boolean status=assetOwnerDao.update(assetOwner,"1");
+        assetOwner.setLastName("mno");
+        boolean status=assetOwnerDao.update(assetOwner,"2");
         Assert.assertEquals(true,status);
     }
 

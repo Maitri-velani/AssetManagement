@@ -4,6 +4,7 @@ import com.brevitaz.AssetManagement.config.ESConfig;
 import com.brevitaz.AssetManagement.dao.AssetDao;
 import com.brevitaz.AssetManagement.model.Asset;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -38,16 +39,26 @@ public class AssetDaoImpl implements AssetDao {
 
     private ObjectMapper objectMapper = new ObjectMapper();
     @Override
-    public boolean create(Asset asset) throws IOException {
+    public boolean create(Asset asset){
 
         IndexRequest request = new IndexRequest(
                 INDEX_NAME,
                 TYPE_NAME,
                 asset.getId());
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String json=objectMapper.writeValueAsString(asset);
+        String json= null;
+        try {
+            json = objectMapper.writeValueAsString(asset);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         request.source(json, XContentType.JSON);
-        IndexResponse response = esConfig.getEsClient().index(request);
+        IndexResponse response = null;
+        try {
+            response = esConfig.getEsClient().index(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (response.status()== RestStatus.OK)
         {
             return true;
@@ -59,13 +70,18 @@ public class AssetDaoImpl implements AssetDao {
     }
 
     @Override
-    public boolean delete(String id) throws IOException {
+    public boolean delete(String id){
         DeleteRequest request = new DeleteRequest(
                 INDEX_NAME,
                 TYPE_NAME,
                 id
         );
-        DeleteResponse response = esConfig.getEsClient().delete(request);
+        DeleteResponse response = null;
+        try {
+            response = esConfig.getEsClient().delete(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (response.status()==RestStatus.NOT_FOUND)
         {
             return true;
@@ -77,29 +93,48 @@ public class AssetDaoImpl implements AssetDao {
     }
 
     @Override
-    public List<Asset> getAll() throws IOException {
+    public List<Asset> getAll(){
         List<Asset> assets = new ArrayList<>();
         SearchRequest request = new SearchRequest(INDEX_NAME);
         request.types(TYPE_NAME);
-        SearchResponse response = esConfig.getEsClient().search(request);
+        SearchResponse response = null;
+        try {
+            response = esConfig.getEsClient().search(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         SearchHit[] hits = response.getHits().getHits();
-        Asset asset;
+        Asset asset=null;
         for (SearchHit hit : hits) {
-            asset = objectMapper.readValue(hit.getSourceAsString(), Asset.class);
+            try {
+                asset = objectMapper.readValue(hit.getSourceAsString(), Asset.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             assets.add(asset);
         }
         return assets;
     }
 
     @Override
-    public Asset getById(String id) throws IOException {
+    public Asset getById(String id){
         GetRequest request = new GetRequest(
                 INDEX_NAME,
                 TYPE_NAME,
                 id);
 
-        GetResponse response = esConfig.getEsClient().get(request);
-        Asset asset = objectMapper.readValue(response.getSourceAsString(), Asset.class);
+        GetResponse response = null;
+        try {
+            response = esConfig.getEsClient().get(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Asset asset = null;
+        try {
+            asset = objectMapper.readValue(response.getSourceAsString(), Asset.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (response.isExists()) {
             return asset;
         }
@@ -110,20 +145,29 @@ public class AssetDaoImpl implements AssetDao {
     }
 
     @Override
-    public List<Asset> getByType(String type) throws IOException {
+    public List<Asset> getByType(String type){
         SearchRequest request = new SearchRequest(INDEX_NAME);
         request.types(TYPE_NAME);
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(QueryBuilders.boolQuery().must(matchQuery("type", type)));
         request.source(sourceBuilder);
         List<Asset> assets=new ArrayList<>();
-        SearchResponse response = esConfig.getEsClient().search(request);
+        SearchResponse response = null;
+        try {
+            response = esConfig.getEsClient().search(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         SearchHit[] hits = response.getHits().getHits();
 
-        Asset asset;
+        Asset asset = null;
         for (SearchHit hit : hits)
         {
-            asset = objectMapper.readValue(hit.getSourceAsString(), Asset.class);
+            try {
+                asset = objectMapper.readValue(hit.getSourceAsString(), Asset.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             assets.add(asset);
         }
         return assets;

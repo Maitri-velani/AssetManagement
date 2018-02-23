@@ -16,12 +16,12 @@ public class RequestController {
     private RequestDao requestDao;
 
     @RequestMapping(value = "/{ownerId}",method = RequestMethod.POST)
-    public boolean create(@RequestBody Request request, @PathVariable String ownerId) throws IOException {
+    public boolean create(@RequestBody Request request, @PathVariable String ownerId){
         return requestDao.create(request,ownerId);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Request> getAll() throws IOException {
+    public List<Request> getAll(){
         return requestDao.getAll ();
 
     }
@@ -33,12 +33,12 @@ public class RequestController {
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE) //only to test
-    public boolean delete(@PathVariable String id) throws IOException {
+    public boolean delete(@PathVariable String id){
         return requestDao.delete(id);
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET) //only to test
-    public Request getById(@PathVariable String id) throws IOException {
+    public Request getById(@PathVariable String id){
         return requestDao.getById(id);
     }
 

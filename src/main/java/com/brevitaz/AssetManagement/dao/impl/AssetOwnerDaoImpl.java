@@ -4,6 +4,7 @@ import com.brevitaz.AssetManagement.config.ESConfig;
 import com.brevitaz.AssetManagement.dao.AssetOwnerDao;
 import com.brevitaz.AssetManagement.model.AssetOwner;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -40,15 +41,25 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public boolean create(AssetOwner assetOwner) throws IOException {
+    public boolean create(AssetOwner assetOwner){
         IndexRequest request = new IndexRequest(
                 INDEX_NAME,
                 TYPE_NAME,
                 assetOwner.getId());
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String json=objectMapper.writeValueAsString(assetOwner);
+        String json= null;
+        try {
+            json = objectMapper.writeValueAsString(assetOwner);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         request.source(json, XContentType.JSON);
-        IndexResponse response = esConfig.getEsClient().index(request);
+        IndexResponse response = null;
+        try {
+            response = esConfig.getEsClient().index(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (response.status()== RestStatus.OK)
         {
             return true;
@@ -60,30 +71,49 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
     }
 
     @Override
-    public List<AssetOwner> getAll() throws IOException {
+    public List<AssetOwner> getAll() {
         List<AssetOwner> assetOwners = new ArrayList<>();
         SearchRequest request = new SearchRequest(INDEX_NAME);
         request.types(TYPE_NAME);
-        SearchResponse response = esConfig.getEsClient().search(request);
+        SearchResponse response = null;
+        try {
+            response = esConfig.getEsClient().search(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         SearchHit[] hits = response.getHits().getHits();
-        AssetOwner assetOwner;
+        AssetOwner assetOwner = null;
         for (SearchHit hit : hits) {
-            assetOwner = objectMapper.readValue(hit.getSourceAsString(), AssetOwner.class);
+            try {
+                assetOwner = objectMapper.readValue(hit.getSourceAsString(), AssetOwner.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             assetOwners.add(assetOwner);
         }
         return assetOwners;
     }
 
     @Override
-    public boolean update(AssetOwner assetOwner, String id) throws IOException {
+    public boolean update(AssetOwner assetOwner, String id){
         UpdateRequest request = new UpdateRequest(
                 INDEX_NAME,
                 TYPE_NAME,
                 id);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String json = objectMapper.writeValueAsString(assetOwner);
+        String json = null;
+        try {
+            json = objectMapper.writeValueAsString(assetOwner);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         request.doc(json, XContentType.JSON);
-        UpdateResponse response = esConfig.getEsClient().update(request);
+        UpdateResponse response = null;
+        try {
+            response = esConfig.getEsClient().update(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (response.status() == RestStatus.OK)
         {
             return true;
@@ -95,13 +125,18 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
     }
 
     @Override
-    public boolean delete(String id) throws IOException {
+    public boolean delete(String id){
         DeleteRequest request = new DeleteRequest(
                 INDEX_NAME,
                 TYPE_NAME,
                 id
         );
-        DeleteResponse response = esConfig.getEsClient().delete(request);
+        DeleteResponse response = null;
+        try {
+            response = esConfig.getEsClient().delete(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (response.status()==RestStatus.NOT_FOUND)
         {
             return true;
@@ -113,7 +148,7 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
     }
 
     @Override
-    public List<AssetOwner> getOwnerByName(String firstName) throws IOException {
+    public List<AssetOwner> getOwnerByName(String firstName){
         SearchRequest request = new SearchRequest(INDEX_NAME);
         request.types(TYPE_NAME);
 
@@ -124,27 +159,46 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
 
         List<AssetOwner> assetOwners=new ArrayList<>();
 
-        SearchResponse response = esConfig.getEsClient().search(request);
+        SearchResponse response = null;
+        try {
+            response = esConfig.getEsClient().search(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         SearchHit[] hits = response.getHits().getHits();
-        AssetOwner assetOwner;
+        AssetOwner assetOwner = null;
         for (SearchHit hit : hits)
         {
-            assetOwner = objectMapper.readValue(hit.getSourceAsString(), AssetOwner.class);
+            try {
+                assetOwner = objectMapper.readValue(hit.getSourceAsString(), AssetOwner.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             assetOwners.add(assetOwner);
         }
         return assetOwners;
     }
 
     @Override
-    public AssetOwner getOwnerById(String id) throws IOException {
+    public AssetOwner getOwnerById(String id){
         GetRequest request = new GetRequest(
                 INDEX_NAME,
                 TYPE_NAME,
                 id);
 
-        GetResponse response = esConfig.getEsClient().get(request);
-        AssetOwner assetOwner = objectMapper.readValue(response.getSourceAsString(), AssetOwner.class);
+        GetResponse response = null;
+        try {
+            response = esConfig.getEsClient().get(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AssetOwner assetOwner = null;
+        try {
+            assetOwner = objectMapper.readValue(response.getSourceAsString(), AssetOwner.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if (response.isExists()) {
             return assetOwner;
