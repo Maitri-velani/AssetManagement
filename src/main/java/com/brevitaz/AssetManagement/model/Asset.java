@@ -1,5 +1,7 @@
 package com.brevitaz.AssetManagement.model;
 
+import java.util.Objects;
+
 public class Asset {
     private String id;
     private String name;
@@ -57,4 +59,23 @@ public class Asset {
                 ", status=" + status +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Asset asset = (Asset) o;
+        return status == asset.status &&
+                Objects.equals(id, asset.id) &&
+                Objects.equals(name, asset.name) &&
+                Objects.equals(type, asset.type) &&
+                Objects.equals(productId, asset.productId);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, type, productId, status);
+    }
 }
+

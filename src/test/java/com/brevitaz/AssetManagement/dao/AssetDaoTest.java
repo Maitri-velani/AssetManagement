@@ -21,36 +21,84 @@ public class AssetDaoTest {
     @Test
     public void create(){
         Asset asset = new Asset();
-        asset.setId("3");
-        asset.setName("uwqe");
-        asset.setType("lenovo");
-        boolean status = assetDao.create(asset);
-        Assert.assertEquals(true,status);
+        asset.setId("4");
+        asset.setName("pqrst");
+        asset.setType("dell");
+        assetDao.create(asset);
+        Asset asset1 = assetDao.getById("4");
+        Assert.assertEquals(asset1.getName(),asset.getName());
+        assetDao.delete("4");
     }
 
     @Test
     public void getAll(){
+        Asset asset = new Asset();
+        asset.setId("1");
+        asset.setName("pqrst");
+        asset.setType("dell");
+        assetDao.create(asset);
+
+        Asset asset1 = new Asset();
+        asset1.setId("2");
+        asset1.setName("pqrst");
+        asset1.setType("lenovo");
+        assetDao.create(asset);
+
         List<Asset> assets = assetDao.getAll();
         int size = assets.size();
         Assert.assertEquals(2,size);
+        assetDao.delete("1");
+        assetDao.delete("2");
     }
 
     @Test
     public void getById(){
-        Asset asset = assetDao.getById("2");
-        Assert.assertNotNull(asset);
+        Asset asset = new Asset();
+        asset.setId("1");
+        asset.setName("pqrst");
+        asset.setType("dell");
+        assetDao.create(asset);
+        Asset asset1 = assetDao.getById("1");
+        Assert.assertNotNull(asset1);
+        assetDao.delete("1");
     }
 
     @Test
     public void getByType(){
-        List<Asset> assets = assetDao.getByType("lenovo");
+        Asset asset = new Asset();
+        asset.setId("1");
+        asset.setName("pqrst");
+        asset.setType("dell");
+        assetDao.create(asset);
+
+        Asset asset1 = new Asset();
+        asset.setId("2");
+        asset.setName("pqrst");
+        asset.setType("dell");
+        assetDao.create(asset);
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        List<Asset> assets = assetDao.getByType("dell");
         int size = assets.size();
         Assert.assertEquals(2,size);
+        assetDao.delete("1");
+        assetDao.delete("2");
     }
 
     @Test
     public void delete(){
-        boolean status=assetDao.delete("1");
-        Assert.assertEquals(true,status);
+        Asset asset = new Asset();
+        asset.setId("1");
+        asset.setName("pqrst");
+        asset.setType("dell");
+        assetDao.create(asset);
+
+        assetDao.delete("1");
+        Asset asset1=assetDao.getById("1");
+        Assert.assertNull(asset1);
     }
 }

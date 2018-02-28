@@ -187,25 +187,20 @@ public class AssetOwnerDaoImpl implements AssetOwnerDao {
                 TYPE_NAME,
                 id);
 
-        GetResponse response = null;
         try {
-            response = esConfig.getEsClient().get(request);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        AssetOwner assetOwner = null;
-        try {
-            assetOwner = objectMapper.readValue(response.getSourceAsString(), AssetOwner.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        if (response.isExists()) {
-            return assetOwner;
+            GetResponse response = esConfig.getEsClient().get(request);
+            AssetOwner assetOwner = objectMapper.readValue(response.getSourceAsString(), AssetOwner.class);
+            if (response.isExists()) {
+                return assetOwner;
+            } else {
+                return null;
+            }
         }
-        else
+        catch (Exception e)
         {
-            return null;
+            e.printStackTrace();
         }
+        return null;
     }
 }

@@ -4,6 +4,7 @@ import com.brevitaz.AssetManagement.config.ESConfig;
 import com.brevitaz.AssetManagement.dao.AssetDao;
 import com.brevitaz.AssetManagement.model.Asset;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -122,26 +123,21 @@ public class AssetDaoImpl implements AssetDao {
                 INDEX_NAME,
                 TYPE_NAME,
                 id);
+        try {
 
-        GetResponse response = null;
-        try {
-            response = esConfig.getEsClient().get(request);
-        } catch (IOException e) {
-            e.printStackTrace();
+            GetResponse response = esConfig.getEsClient().get(request);
+            Asset asset = objectMapper.readValue(response.getSourceAsString(), Asset.class);
+            if (response.isExists()) {
+                return asset;
+            } else {
+                return null;
+            }
         }
-        Asset asset = null;
-        try {
-            asset = objectMapper.readValue(response.getSourceAsString(), Asset.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (response.isExists()) {
-            return asset;
-        }
-        else
+        catch (Exception e)
         {
-            return null;
+            e.printStackTrace();
         }
+        return null;
     }
 
     @Override

@@ -20,6 +20,7 @@ public class RequestDaoTest {
     @Autowired
     RequestDao requestDao;
 
+
     @Test
     public void create(){
         List<Asset> assets = new ArrayList<>();
@@ -34,28 +35,75 @@ public class RequestDaoTest {
         Request request = new Request();
         request.setId("1");
         request.setAssets(assets);
+        requestDao.create(request,"1");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        boolean status = requestDao.create(request,"1");
-        System.out.println(request);
-        Assert.assertEquals(true,status);
+        Request request1 = requestDao.getById("1");
+        Assert.assertEquals(request1.getAssets(),request.getAssets());
+        requestDao.delete("1");
     }
 
     @Test
     public void getAll(){
+        List<Asset> assets = new ArrayList<>();
+        Asset asset = new Asset();
+        asset.setName("lenovo");
+        assets.add(asset);
+
+        Request request = new Request();
+        request.setId("1");
+        request.setAssets(assets);
+        requestDao.create(request,"1");
+
         List<Request> requests = requestDao.getAll();
         int size = requests.size();
         Assert.assertEquals(1,size);
+        requestDao.delete("1");
     }
 
     @Test
     public void delete(){
-        boolean status = requestDao.delete("1");
-        Assert.assertEquals(true,status);
+        List<Asset> assets = new ArrayList<>();
+        Asset asset=new Asset();
+        asset.setName("mouse");
+        assets.add(asset);
+
+        Asset asset1 = new Asset();
+        asset1.setName("lenovo");
+        assets.add(asset1);
+
+        Request request = new Request();
+        request.setId("1");
+        request.setAssets(assets);
+
+        requestDao.create(request,"1");
+        requestDao.delete("1");
+        Request request1 = requestDao.getById("1");
+        Assert.assertNull(request1);
     }
 
     @Test
     public void getById(){
-        Request request = requestDao.getById("1");
-        Assert.assertNotNull(request);
+        List<Asset> assets = new ArrayList<>();
+        Asset asset=new Asset();
+        asset.setName("mouse");
+        assets.add(asset);
+
+        Asset asset1 = new Asset();
+        asset1.setName("lenovo");
+        assets.add(asset1);
+
+        Request request = new Request();
+        request.setId("1");
+        request.setAssets(assets);
+        requestDao.create(request,"1");
+
+        Request request1 = requestDao.getById("1");
+        Assert.assertEquals(request1.getAssets(),request.getAssets());
+        requestDao.delete("1");
     }
 }
