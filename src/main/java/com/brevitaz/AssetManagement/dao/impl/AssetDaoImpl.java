@@ -25,6 +25,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
@@ -47,27 +48,24 @@ public class AssetDaoImpl implements AssetDao {
                 TYPE_NAME,
                 asset.getId());
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String json= null;
         try {
-            json = objectMapper.writeValueAsString(asset);
-        } catch (JsonProcessingException e) {
+            String json = objectMapper.writeValueAsString(asset);
+            request.source(json, XContentType.JSON);
+            IndexResponse response = esConfig.getEsClient().index(request);
+            if(response.status()== RestStatus.OK) {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
-        request.source(json, XContentType.JSON);
-        IndexResponse response = null;
-        try {
-            response = esConfig.getEsClient().index(request);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (response.status()== RestStatus.OK)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return false;
+
     }
 
     @Override
@@ -77,20 +75,22 @@ public class AssetDaoImpl implements AssetDao {
                 TYPE_NAME,
                 id
         );
-        DeleteResponse response = null;
         try {
-            response = esConfig.getEsClient().delete(request);
-        } catch (IOException e) {
+            DeleteResponse response = esConfig.getEsClient().delete(request);
+            if (response.status()==RestStatus.NOT_FOUND)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
-        if (response.status()==RestStatus.NOT_FOUND)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     @Override
@@ -123,6 +123,7 @@ public class AssetDaoImpl implements AssetDao {
                 INDEX_NAME,
                 TYPE_NAME,
                 id);
+
         try {
 
             GetResponse response = esConfig.getEsClient().get(request);
