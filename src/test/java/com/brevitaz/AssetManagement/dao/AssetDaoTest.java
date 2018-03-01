@@ -50,7 +50,12 @@ public class AssetDaoTest {
 
     @Test
     public void delete(){
-        boolean status=assetDao.delete("1");
-        Assert.assertEquals(true,status);
+        Asset asset = new Asset();
+        asset.setId("1");
+        asset.setName("abc");
+        assetDao.create(asset);
+        assetDao.delete("1");
+        Asset asset1=assetDao.getById("1");
+        Assert.assertNotEquals(true,asset1);
     }
 }
