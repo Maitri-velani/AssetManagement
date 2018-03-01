@@ -114,21 +114,25 @@ public class RequestDaoImpl implements RequestDao {
                 TYPE_NAME,
                 id
         );
-        GetResponse response = null;
+        GetRequest request = new GetRequest(
+                INDEX_NAME,
+                TYPE_NAME,
+                id);
+
         try {
-            response = esConfig.getEsClient().get(getRequest);
-        } catch (IOException e) {
+
+            GetResponse response = esConfig.getEsClient().get(request);
+            Request request1 = objectMapper.readValue(response.getSourceAsString(), Request.class);
+            if (response.isExists()) {
+                return request1;
+            } else {
+                return null;
+            }
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
-        Request request = null;
-        try {
-            request = objectMapper.readValue(response.getSourceAsString(),Request.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(response.isExists())
-            return request;
-        else
-            return null;
+        return null;
     }
 }
