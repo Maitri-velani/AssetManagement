@@ -7,6 +7,7 @@ public class Asset {
     private String name;
     private String type;
     private String productId;
+    private AssetOwner assetOwner;
     private boolean status;
 
     public String getId() {
@@ -49,6 +50,14 @@ public class Asset {
         this.status = status;
     }
 
+    public AssetOwner getAssetOwner() {
+        return assetOwner;
+    }
+
+    public void setAssetOwner(AssetOwner assetOwner) {
+        this.assetOwner = assetOwner;
+    }
+
     @Override
     public String toString() {
         return "Asset{" +
@@ -56,6 +65,7 @@ public class Asset {
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", productId='" + productId + '\'' +
+                ", assetOwner=" + assetOwner +
                 ", status=" + status +
                 '}';
     }
@@ -69,13 +79,14 @@ public class Asset {
                 Objects.equals(id, asset.id) &&
                 Objects.equals(name, asset.name) &&
                 Objects.equals(type, asset.type) &&
-                Objects.equals(productId, asset.productId);
+                Objects.equals(productId, asset.productId) &&
+                Objects.equals(assetOwner, asset.assetOwner);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, type, productId, status);
+        return Objects.hash(id, name, type, productId, assetOwner, status);
     }
 }
 

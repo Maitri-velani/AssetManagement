@@ -18,7 +18,6 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.concurrent.TimeUnit;
-//import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
 @Configuration
 public class ESConfig {
@@ -55,9 +54,6 @@ public class ESConfig {
 
     @Bean
     public RestHighLevelClient client() throws Exception {
-        Settings settings = Settings.builder()
-                .put(PopularProperties.CLUSTER_NAME, clusterName)
-                .build();
 
         RestHighLevelClient restHighLevelClient = new RestHighLevelClient(
                 RestClient.builder(new HttpHost(host, portNumber, scheme)).build());
@@ -72,7 +68,8 @@ public class ESConfig {
                     .withElasticVersion("5.4.1").withEsJavaOpts("-Xms1g -Xmx1g")
                     .withSetting(PopularProperties.TRANSPORT_TCP_PORT, 9300)
                     .withSetting(PopularProperties.HTTP_PORT, 9200)
-                    .withSetting(PopularProperties.CLUSTER_NAME, clusterName).withStartTimeout(60, TimeUnit.SECONDS)
+                    .withSetting(PopularProperties.CLUSTER_NAME, clusterName)
+                    .withStartTimeout(60, TimeUnit.SECONDS)
                     .build()
                     .start();
             System.out.println("Es started");

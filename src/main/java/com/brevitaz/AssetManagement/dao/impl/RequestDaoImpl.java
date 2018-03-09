@@ -2,7 +2,7 @@ package com.brevitaz.AssetManagement.dao.impl;
 
 
 
-import com.brevitaz.AssetManagement.config.ESConfig;
+
 import com.brevitaz.AssetManagement.dao.RequestDao;
 import com.brevitaz.AssetManagement.model.Request;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -16,6 +16,7 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
@@ -33,9 +34,10 @@ public class RequestDaoImpl implements RequestDao {
     public static final String TYPE_NAME = "doc";
 
     @Autowired
-    private ESConfig esConfig;
+    private RestHighLevelClient getEsClient;
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public boolean create(Request request, String ownerId){
@@ -53,7 +55,7 @@ public class RequestDaoImpl implements RequestDao {
         indexRequest.source(json, XContentType.JSON);
         IndexResponse response = null;
         try {
-            response = esConfig.getEsClient().index(indexRequest);
+            response = getEsClient.index(indexRequest);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,7 +72,7 @@ public class RequestDaoImpl implements RequestDao {
         searchRequest.types(TYPE_NAME);
         SearchResponse response = null;
         try {
-            response = esConfig.getEsClient().search(searchRequest);
+            response = getEsClient.search(searchRequest);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,7 +99,7 @@ public class RequestDaoImpl implements RequestDao {
         );
         DeleteResponse response = null;
         try {
-            response = esConfig.getEsClient().delete(request);
+            response = getEsClient.delete(request);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,7 +123,7 @@ public class RequestDaoImpl implements RequestDao {
 
         try {
 
-            GetResponse response = esConfig.getEsClient().get(request);
+            GetResponse response = getEsClient.get(request);
             Request request1 = objectMapper.readValue(response.getSourceAsString(), Request.class);
             if (response.isExists()) {
                 return request1;

@@ -7,7 +7,7 @@ public class Request {
     private String id;
     private String description;
     private boolean status;
-    private List<Asset> assets;
+    private Asset assets;
 
     public String getId() {
         return id;
@@ -33,11 +33,11 @@ public class Request {
         this.status = status;
     }
 
-    public List<Asset> getAssets() {
+    public Asset getAssets() {
         return assets;
     }
 
-    public void setAssets(List<Asset> assets) {
+    public void setAssets(Asset assets) {
         this.assets = assets;
     }
 
@@ -50,4 +50,6 @@ public class Request {
                 ", assets=" + assets +
                 '}';
     }
+
+
 }

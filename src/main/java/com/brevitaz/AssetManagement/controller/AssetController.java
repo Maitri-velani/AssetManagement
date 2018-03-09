@@ -1,6 +1,7 @@
 package com.brevitaz.AssetManagement.controller;
 
 import com.brevitaz.AssetManagement.dao.AssetDao;
+import com.brevitaz.AssetManagement.model.AssetOwner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class AssetController {
         return assetDao.delete(id);
     }
 
-    @RequestMapping(value = "/{id}/assign/{ownerId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/owner/{ownerId}/assign", method = RequestMethod.POST)
     public boolean assign(@RequestBody Asset asset)
     {
         System.out.println("Assign asset to employee Successfully");
@@ -55,5 +56,23 @@ public class AssetController {
     {
         System.out.println("Deallocate asset from employee");
         return true;
+    }
+
+
+
+
+    @RequestMapping(value = "/get-all-owner",method = {RequestMethod.GET})
+    public List<AssetOwner> getAllOwner(){
+        return assetDao.getAllOwner();
+    }
+
+    @RequestMapping(value="/name/{firstName}", method = {RequestMethod.GET})
+    public List<AssetOwner> getOwnerByName(@PathVariable String firstName){
+        return assetDao.getOwnerByName(firstName);
+    }
+
+    @RequestMapping(value="/id/{id}", method = {RequestMethod.GET})
+    public AssetOwner getByOwnerId(@PathVariable String id){
+        return assetDao.getOwnerById(id);
     }
 }

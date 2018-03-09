@@ -24,7 +24,7 @@ import java.util.List;
 @SpringBootTest
 public class RequestDaoTest {
 
-    @ClassRule
+    /*@ClassRule
     public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
 
     @Rule
@@ -117,5 +117,5 @@ public class RequestDaoTest {
         Request request1 = requestDao.getById("1");
         Assert.assertEquals(request1.getAssets(),request.getAssets());
         requestDao.delete("1");
-    }
+    }*/
 }

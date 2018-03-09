@@ -1,13 +1,13 @@
 package com.brevitaz.AssetManagement.model;
 
-import java.util.List;
 
 public class AssetOwner {
 	
 	private String id;
 	private String firstName;
 	private String lastName;
-	private List<Asset> assets;
+	private String contactNo;
+	private String emailId;
 
 	public String getId() {
 		return id;
@@ -33,12 +33,20 @@ public class AssetOwner {
 		this.lastName = lastName;
 	}
 
-	public List<Asset> getAssets() {
-		return assets;
+	public String getContactNo() {
+		return contactNo;
 	}
 
-	public void setAssets(List<Asset> assets) {
-		this.assets = assets;
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 
 	@Override
@@ -47,7 +55,8 @@ public class AssetOwner {
 				"id='" + id + '\'' +
 				", firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
-				", assets=" + assets +
+				", contactNo='" + contactNo + '\'' +
+				", emailId='" + emailId + '\'' +
 				'}';
 	}
 }
